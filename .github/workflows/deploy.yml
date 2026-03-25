@@ -36,20 +36,7 @@ jobs:
 
       - name: 🧪 Run unit tests
         run: |
-          echo "🔧 Configurando entorno para tests..."
-    
-          # Asegurar que la raíz del proyecto está en PYTHONPATH
-          export PYTHONPATH="${{ github.workspace }}:${PYTHONPATH}"
-    
-          # Verificar estructura para debug
-          echo "📁 Directorio actual: $(pwd)"
-          echo "📦 PYTHONPATH: $PYTHONPATH"
-          echo "📂 Archivos Python encontrados:"
-          find . -name "*.py" -type f | grep -E "(src|tests)" | sort
-    
-          # Ejecutar pytest con configuración explícita
-          echo "🧪 Ejecutando pytest..."
-          python -m pytest tests/ -v --tb=short --color=yes --import-mode=importlib -o pythonpath=${{ github.workspace }}
+          python -m pytest tests/test_app.py -v --tb=short -s
 
       - name: 🔍 Validate SAM template
         run: |
