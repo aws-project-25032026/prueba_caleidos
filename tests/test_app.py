@@ -24,4 +24,4 @@ def test_lambda_handler():
     
     body = json.loads(response["body"])
     assert "message" in body, "La respuesta debe contener 'message'"
-    assert body["message"] == "Hello World", f"Esperaba 'Hello World', obtuvo '{body['message']}'"
+    assert body["message"] == "Hola Mundo", f"Esperaba 'Hola Mundo', obtuvo '{body['message']}'"
