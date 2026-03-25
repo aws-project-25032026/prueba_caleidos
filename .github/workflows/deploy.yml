@@ -169,7 +169,7 @@ jobs:
               echo "📦 Response Body: $BODY"
         
               # Validar respuesta exitosa
-              if [ "$STATUS" = "200" ] && echo "$BODY" | grep -q "Hello World"; then
+              if [ "$STATUS" = "200" ] && echo "$BODY" | grep -q "Hola Mundo"; then
                 echo "✅ Validación exitosa en intento $attempt: Endpoint responde correctamente"
                 exit 0
               else
