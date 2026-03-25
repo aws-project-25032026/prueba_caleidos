@@ -36,11 +36,20 @@ jobs:
 
       - name: 🧪 Run unit tests
         run: |
-          # Opción A: Ejecutar pytest desde el root con PYTHONPATH
-          PYTHONPATH=${{ github.workspace }} pytest tests/ -v --tb=short
+          echo "🔧 Configurando entorno para tests..."
     
-          # Opción B: Usar python -m pytest (alternativa)
-          # python -m pytest tests/ -v --tb=short
+          # Asegurar que la raíz del proyecto está en PYTHONPATH
+          export PYTHONPATH="${{ github.workspace }}:${PYTHONPATH}"
+    
+          # Verificar estructura para debug
+          echo "📁 Directorio actual: $(pwd)"
+          echo "📦 PYTHONPATH: $PYTHONPATH"
+          echo "📂 Archivos Python encontrados:"
+          find . -name "*.py" -type f | grep -E "(src|tests)" | sort
+    
+          # Ejecutar pytest con configuración explícita
+          echo "🧪 Ejecutando pytest..."
+          python -m pytest tests/ -v --tb=short --color=yes --import-mode=importlib -o pythonpath=${{ github.workspace }}
 
       - name: 🔍 Validate SAM template
         run: |
