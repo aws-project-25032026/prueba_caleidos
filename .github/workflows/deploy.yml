@@ -33,39 +33,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest aws-sam-cli boto3
-
-      - name: 🐛 DEBUG: Verificar estructura y imports
-        run: |
-          echo "=== 📁 ESTRUCTURA DEL PROYECTO ==="
-          find . -name "*.py" -type f | sort
-    
-          echo -e "\n=== 📄 Contenido de src/ ==="
-          ls -la src/ || echo "❌ Directorio src/ no encontrado"
-    
-          echo -e "\n=== 📄 Contenido de tests/ ==="
-          ls -la tests/ || echo "❌ Directorio tests/ no encontrado"
-    
-          echo -e "\n=== 🐍 PYTHON PATH ==="
-          python -c "import sys; [print(f'  {p}') for p in sys.path]"
-    
-          echo -e "\n=== 🔄 Probando import ==="
-          python -c "
-            import sys, os
-            print(f'CWD: {os.getcwd()}')
-            sys.path.insert(0, os.getcwd())
-            try:
-              from src.app import lambda_handler
-              print('✅ IMPORT EXITOSO')
-            except Exception as e:
-              print(f'❌ ERROR: {type(e).__name__}: {e}')
-              import traceback
-              traceback.print_exc()
-          "
           
       - name: 🧪 Run unit tests
         run: |
-          export PYTHONPATH="${{ github.workspace }}"
-          python -m pytest tests/ -v --tb=short --import-mode=importlib
+          echo "🔧 Configurando PYTHONPATH..."
+          export PYTHONPATH="${{ github.workspace }}:${PYTHONPATH}"
+    
+          echo "🧪 Ejecutando pytest..."
+          # Usar --import-mode=append para que sys.path.insert tenga prioridad
+          python -m pytest tests/test_app.py -v --tb=short --import-mode=append -s
 
       - name: 🔍 Validate SAM template
         run: |
