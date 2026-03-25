@@ -36,7 +36,8 @@ jobs:
 
       - name: 🧪 Run unit tests
         run: |
-          python -m pytest tests/test_app.py -v --tb=short -s
+          export PYTHONPATH="${{ github.workspace }}"
+          python -m pytest tests/ -v --tb=short --import-mode=importlib
 
       - name: 🔍 Validate SAM template
         run: |
